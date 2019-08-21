@@ -300,7 +300,6 @@ var base60float = regexp.MustCompile(`^[-+]?[0-9][0-9_]*(?::[0-5]?[0-9])+(?:\.[0
 func (e *encoder) stringv(tag string, in reflect.Value) {
 	var style yaml_scalar_style_t
 	s := in.String()
-	canUsePlain := true
 	switch {
 	case !utf8.ValidString(s):
 		if tag == yaml_BINARY_TAG {
