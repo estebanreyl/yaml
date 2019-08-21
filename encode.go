@@ -313,12 +313,6 @@ func (e *encoder) stringv(tag string, in reflect.Value) {
 		// and encode it as base64.
 		tag = yaml_BINARY_TAG
 		s = encodeBase64(s)
-	case tag == "":
-		// Check to see if it would resolve to a specific
-		// tag when encoded unquoted. If it doesn't,
-		// there's no need to quote it.
-		rtag, _ := resolve("", s)
-		canUsePlain = rtag == yaml_STR_TAG && !isBase60Float(s)
 	}
 	// Note: it's possible for user code to emit invalid YAML
 	// if they explicitly specify a tag and a string containing
@@ -326,8 +320,6 @@ func (e *encoder) stringv(tag string, in reflect.Value) {
 	switch {
 	case strings.Contains(s, "\n"):
 		style = yaml_LITERAL_SCALAR_STYLE
-	case canUsePlain:
-		style = yaml_PLAIN_SCALAR_STYLE
 	default:
 		style = yaml_DOUBLE_QUOTED_SCALAR_STYLE
 	}
